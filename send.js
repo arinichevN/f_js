@@ -1,10 +1,17 @@
 var $sq = [];
 var $tmo = 4000;
-//var $u = window.location.origin + window.location.pathname;
-var $u = window.location.protocol + '//' + window.location.host + window.location.pathname;
 function send(c, d, a) {
+    var dest = window.location.protocol + '//' + window.location.host + window.location.pathname;
     var start = new Date();
-    $sq.push([c, d, a, start]);
+    $sq.push([c, d, a, start, dest]);
+    if ($sq.length === 1) {
+        execute();
+    }
+}
+function sendTo(c, d, a, dest) {
+    var dest = window.location.protocol + '//' + window.location.host + window.location.pathname + dest + '.php';
+    var start = new Date();
+    $sq.push([c, d, a, start, dest]);
     if ($sq.length === 1) {
         execute();
     }
@@ -16,7 +23,7 @@ function execute() {
     var timer = window.setTimeout(function () {
         timedout = true;
         r.abort();
-        $sq[0][0].abort($sq[0][2], 'fail: timeout');
+        $sq[0][0].abort($sq[0][2], 'execute: timeout');
         donext();
     }, $tmo);
     r.onreadystatechange = function () {
@@ -25,13 +32,13 @@ function execute() {
             if (r.status === 200) {
                 processResponse(r.responseText, $sq[0][2]);
             } else {
-                processResponse('{"status":"fail","message":"HTTP response status is not 200"}', $sq[0][2]);
+                processResponse('{"c_status":2,"message":"HTTP response status is not 200"}', $sq[0][2]);
             }
 
         }
     };
     //  r.timeout = 10000;
-    r.open("POST", $u, true);
+    r.open("POST", $sq[0][4], true);
     r.setRequestHeader('Content-Type', 'application/json');
     r.send(JSON.stringify($sq[0][1]));
 }
@@ -42,7 +49,7 @@ function processResponse(r, action) {
         try {
             var d = JSON.parse(r);
         } catch (e) {
-            $sq[0][0].abort(action, 'fail: can not parse json', diff);
+            $sq[0][0].abort(action, 'processResponse: can not parse json', diff);
             $sq.shift();
             if ($sq.length !== 0) {
                 execute();
@@ -62,7 +69,7 @@ function processResponse(r, action) {
                 }
                 break;
             case 2:
-                $sq[0][0].abort(action, d.data,diff);
+                $sq[0][0].abort(action, d.message,diff);
                 break;
             case 3:
                 $sq[0][0].abort(action, d.message,diff);
@@ -71,7 +78,7 @@ function processResponse(r, action) {
         }
 
     } else {
-        $sq[0][0].abort(action, 'fail: response is empty',diff);
+        $sq[0][0].abort(action, 'processResponse: response is empty',diff);
     }
     donext();
 }

@@ -15,7 +15,6 @@ function time_now() {
     return parseInt((Date.now()) / 1000);
 }
 function intToTimeStr(i) {
-
     var d = 0, h = 0, m = 0, s = 0, r = 0;
     var hs = "", ms = "", ss = "", ns = "";
     if (i < 0) {
@@ -33,22 +32,29 @@ function intToTimeStr(i) {
     ms = intTo2str(m);
     ss = intTo2str(s);
     if (d > 0) {
-        return String.concat(ns, d, ":", hs, ":", ms, ":", ss);
+        return ns + d + ":" + hs + ":" + ms + ":" + ss;
     } else {
-        return String.concat(ns, hs, ":", ms, ":", ss);
+        return ns + hs + ":" + ms + ":" + ss;
     }
 }
+
 function intTo2str(i) {
     var s = i.toString();
     var si = "";
     if (s.length === 1) {
-        si = String.concat("0", s);
+        si = "0" + s;
     } else if (s.length > 1) {
         si = s.slice(0, 2);
     } else {
         si = "00";
     }
     return si;
+}
+function boolToStr(v) {
+    if (v) {
+        return '&Cross;';
+    }
+    return ' ';
 }
 function cgsk(id) {
     var cl = "";
@@ -127,6 +133,7 @@ function cvis() {
     elem.classList.add("hdn");
     return elem;
 }
+
 function Enum(v) {
     for (var i = 0; i < v.length; i++) {
         this[v[i]] = i;
@@ -299,16 +306,32 @@ function a(p, c) {
     if (c instanceof Array) {
         for (var i = 0; i < c.length; i++) {
             if (c[i] instanceof Element || c[i] instanceof Text) {
-                p.appendChild(c[i]);
+                if (p instanceof Element) {
+                    p.appendChild(c[i]);
+                } else {
+                    p.container.appendChild(c[i]);
+                }
             } else {
-                p.appendChild(c[i].container);
+                if (p instanceof Element) {
+                    p.appendChild(c[i].container);
+                } else {
+                    p.container.appendChild(c[i].container);
+                }
             }
         }
     } else {
         if (c instanceof Element) {
-            p.appendChild(c);
+            if (p instanceof Element) {
+                p.appendChild(c);
+            } else {
+                p.container.appendChild(c);
+            }
         } else {
-            p.appendChild(c.container);
+            if (p instanceof Element) {
+                p.appendChild(c.container);
+            } else {
+                p.container.appendChild(c.container);
+            }
         }
     }
 }
@@ -545,6 +568,11 @@ function eqo(a1, a2) {
         }
     }
     return true;
+}
+function cpo(o1, o2) {
+    for (var attr in o2) {
+        o1[attr] = o2[attr];
+    }
 }
 function asc(a, b) {
     return a - b;

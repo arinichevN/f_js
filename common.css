@@ -1,15 +1,15 @@
 body{
-     /*position: relative;
-      width:800px;
-      height:480px;*/
+    /*position: relative;
+     width:800px;
+     height:480px;*/
     width:100%;
     height:100%;
     font-family: sans-serif;
     background-color: #eeeeee;
-   /* overflow:  hidden;*/
+    /* overflow:  hidden;*/
     padding:3px;
     margin:0px;
-overflow-y: scroll;
+    overflow-y: scroll;
 }
 body1{
     font-family: sans-serif;
@@ -21,7 +21,7 @@ section{
     position: absolute;
     top:0px;
     width:100%;
-    height: 90%;
+    height: 100%;
 }
 .section_free{
     position:  relative;
@@ -47,15 +47,26 @@ button{
     cursor: wait;
     z-index:101;
 }
+.page_blocker{
+    position: fixed;
+    top:0px;
+    left:0px;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    opacity: 0.3;
+    cursor: wait;
+    z-index:101;
+}
 .logger_m{
     position: absolute;
     top:90%;
     width:100%;
     margin:5px 0px 0px 0px;
     font-family: monospace;
-    font-size:   x-small;
+    font-size:  large;
     overflow: hidden;
-    height:12px;
+    height:25px;
 }
 .logger_l{
     float:left;background-color: black;
@@ -84,6 +95,35 @@ button{
 }
 .logger_dt_local{
     color:yellow;
+}
+.loggerfl_cont{
+    position: fixed;
+    left:0px;
+    top:0px;
+    z-index: 99;
+}
+.loggerfl_head{
+    min-height: 30px;
+    font-size: 25px;
+    font-weight: bold;
+    margin:5px;
+}
+.loggerfl_val{
+    min-height: 50px;
+    font-size: 20px;
+    margin:10px 10px 10px 10px;
+}
+.loggerfl_err > div{
+    color:red;
+    background-color: lightpink;
+}
+.loggerfl_wrn > div{
+    color:orange;
+    background-color: yellow;
+}
+.loggerfl_ntf > div{
+    color:green;
+    background-color: lightgreen;
 }
 .yn_dial{
     position:absolute;
@@ -154,7 +194,9 @@ button{
 .text_r{
     text-align:  right;
 }
-
+.nvis{
+    visibility: hidden;
+}
 .hdn{
     display:none;
 }
@@ -187,13 +229,17 @@ button{
     -moz-user-select:none;
     user-select: none;   
 }
+.fi{
+    font-family: monospace;
+    font-size:30pt;
+}
 .f1{
     font-weight: bold;
     font-size:30pt;
 }
 .f2{
     font-weight: bold;
-    font-size:14pt;
+    font-size:25pt;
 }
 .f3{
     font-weight: bold;

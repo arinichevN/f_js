@@ -9,22 +9,21 @@ function CursorBlocker() {
             self.move(e);
         };
         window.addEventListener('mousemove', f, false);
-        this.container = cd('div');
-        this.container.classList.add('cursor_blocker');
-        this.container.classList.add('hdn');
+        this.container = cd();
+        cla(this.container,['cursor_blocker','hdn']);
         a(document.body, this.container);
     };
     this.enable = function () {
         if (!this.active) {
             this.container.style.left = this.pX - 100 + 'px';
             this.container.style.top = this.pY - 100 + 'px';
-            this.container.classList.remove('hdn');
+            clr(this.container,'hdn');
             this.active = true;
         }
     };
     this.disable = function () {
         if (this.active) {
-            this.container.classList.add('hdn');
+            cla(this.container,'hdn');
             this.active = false;
         }
     };

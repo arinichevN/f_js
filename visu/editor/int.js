@@ -1,24 +1,24 @@
 function IntEdit() {
-    this.type=VISU_TYPE.DIAL;
-    this.container={};
-    this.initialized=false;
-    this.changeB=null;
-    this.signB=null;
-    this.incB=null;
-    this.cancelB=null;
-    this.applyB=null;
-    this.maxB=null;
-    this.minB=null;
-    this.header=null;
-    this.sign=1;
-    this.value=0;
-    this.minv=0;
-    this.maxv=65535;
-    this.inc=1;
-    this.timer=null;
-    this.slave=null;
-    this.kind=null;
-    this.init=function () {
+    this.type = VISU_TYPE.DIAL;
+    this.container = {};
+    this.initialized = false;
+    this.changeB = null;
+    this.signB = null;
+    this.incB = null;
+    this.cancelB = null;
+    this.applyB = null;
+    this.maxB = null;
+    this.minB = null;
+    this.header = null;
+    this.sign = 1;
+    this.value = 0;
+    this.minv = 0;
+    this.maxv = 65535;
+    this.inc = 1;
+    this.timer = null;
+    this.slave = null;
+    this.kind = null;
+    this.init = function () {
         var self = this;
         this.container = cvis();
         this.header = cd();
@@ -58,7 +58,7 @@ function IntEdit() {
         cla(this.signB, "cell_l30");
         cla(this.incB, "cell_r70");
         cla([this.changeB, r2, r3], "row_EB");
-        cla(this.changeB,"change");
+        cla(this.changeB, "change");
         cla(this.maxB, "text_r");
         cla(this.header, "edit_header");
         a(r1, [this.minB, this.maxB]);
@@ -67,56 +67,56 @@ function IntEdit() {
         a(this.container, [this.header, r1, this.changeB, r2, r3]);
         this.initialized = true;
     };
-        this.getName = function () {
+    this.getName = function () {
         return "int edit";
     };
-    this.incCB=function () {
+    this.incCB = function () {
         var r = this.value + this.inc * this.sign;
         if (r >= this.minv && r <= this.maxv) {
             this.value = this.value + (this.inc * this.sign);
             this.changeB.innerHTML = this.value;
         }
     };
-    this.chSign=function () {
+    this.chSign = function () {
         this.sign *= -1;
         this.updSign();
     };
-    this.updSign=function () {
+    this.updSign = function () {
         if (this.sign > 0) {
             this.signB.innerHTML = "+";
         } else {
             this.signB.innerHTML = "-";
         }
     };
-    this.updInc=function () {
-        switch(this.inc) {
+    this.updInc = function () {
+        switch (this.inc) {
             case 1:
-                this.inc=10;
+                this.inc = 10;
                 break;
             case 10:
-                this.inc=100;
+                this.inc = 100;
                 break;
             case 100:
-                this.inc=1000;
+                this.inc = 1000;
                 break;
             case 1000:
-                this.inc=1;
+                this.inc = 1;
                 break;
         }
         this.incB.innerHTML = this.inc;
     };
-    this.cancel=function () {
+    this.cancel = function () {
         goBack();
     };
-    this.apply=function () {
+    this.apply = function () {
         this.slave.catchEdit(this.value, this.kind);
         goBack();
     };
-    this.updateStr=function () {
+    this.updateStr = function () {
         this.cancelB.innerHTML = trans.get(5);
         this.applyB.innerHTML = trans.get(2);
     };
-    this.prep=function (v, min_v, max_v, slave, kind, t) {
+    this.prep = function (v, min_v, max_v, slave, kind, t) {
         this.slave = slave;
         this.kind = kind;
         this.value = v;
@@ -128,14 +128,14 @@ function IntEdit() {
         this.header.innerHTML = trans.get(t);
         this.changeB.innerHTML = this.value;
         // this.incB.innerHTML = this.inc;
-        this.slave.update=false;
+        this.slave.update = false;
     };
-    this.show=function () {
+    this.show = function () {
         clr(this.container, "hdn");
     };
-    this.hide=function () {
+    this.hide = function () {
         cla(this.container, "hdn");
     };
 }
-var vint_edit=new IntEdit();
+var vint_edit = new IntEdit();
 visu.push(vint_edit);

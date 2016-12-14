@@ -34,6 +34,14 @@ function SaveButton(slave, id) {
     };
     this.updateStr();
 }
+function Fieldset() {
+    this.container = c('fieldset');
+    this.head = c('legend');
+    a(this.container, this.head);
+    this.updateStr = function (v) {
+        this.head.innerHTML = v;
+    };
+}
 function CopyButton(slave, id) {
     var self = this;
     this.slave = slave;

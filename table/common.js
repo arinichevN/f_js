@@ -163,6 +163,37 @@ function Table(slave, id, trlt, h) {//[[text_id,width,transf],]
             this.btnCnt();
         }
     };
+    this.addRowAfterSelection = function (v) {
+        if (this.addable) {
+            var self = this;
+            var atd = [];
+            var amc = [];
+            var tr = c('tr');
+            for (var i = 0; i < v.length; i++) {
+                var td = c('td');
+                ss(td, "width", this.cw[i]);
+                if (this.colStyle[i]) {
+                    cla(td, this.colStyle[i]);
+                }
+                var col = i;
+                if (this.cell_clickable[i]) {
+                    ael(td, "click", function () {
+                        self.cellClick(this, col);
+                    });
+                    cla(td, "clickable");
+                }
+                td.innerHTML = v[i];
+                atd.push(td);
+                amc.push(false);
+                a(tr, td);
+            }
+            this.c.splice(this.sr, 0, atd);
+            this.r.splice(this.sr, 0, tr);
+            this.mc.splice(this.sr, 0, amc);
+            this.tt.insertBefore(tr, this.r[this.sr]);
+            this.btnCnt();
+        }
+    };
     this.appendRow = function (v) {
         var self = this;
         var atd = [];
@@ -356,7 +387,7 @@ function Table(slave, id, trlt, h) {//[[text_id,width,transf],]
         cleara(this.r);
         cleara(this.mc);
        this.sc=-1;
-      this.sr=-1
+      this.sr=-1;
     };
     this.updateHeader = function () {
         for (var i = 0; i < this.htid.length; i++) {

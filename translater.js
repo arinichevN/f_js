@@ -4,10 +4,10 @@ function Translater() {
     this.active_lang = null;
     this.lang = [];//available languages array
     this.langB = [];
-    this.MONTH_OFFSET=20;
-    this.MONTH_FULL_OFFSET=8;
-    this.WEEKDAY_OFFSET=39;
-    this.WEEKDAY_FULL_OFFSET=32;
+    this.MONTH_OFFSET = 20;
+    this.MONTH_FULL_OFFSET = 8;
+    this.WEEKDAY_OFFSET = 39;
+    this.WEEKDAY_FULL_OFFSET = 32;
     this.month = [
         [0, 0, "january", "jan"],
         [1, 0, "february", "feb"],
@@ -80,6 +80,7 @@ function Translater() {
             b.onclick = function () {
                 self.changeLang(this);
             };
+            cla(b, [ "f2"]);
             if (i === this.active_lang) {
                 cla(b, "active_btn");
             }
@@ -167,7 +168,7 @@ function Translater() {
                 return null;
         }
     };
-     this.wdRu2En = function (id) {
+    this.wdRu2En = function (id) {
         switch (id) {
             case 0:
                 return 1;

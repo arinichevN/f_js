@@ -6,7 +6,8 @@ function Logger() {
     this.stl = "logger_ntf";
     this.timer = null;
     this.LLIMIT = 32;
-    this.dt_diff=0;
+    this.dt_diff = 0;
+    this.dt_wday=0;
     this.init = function () {
         var self = this;
         this.container = cd();
@@ -21,7 +22,7 @@ function Logger() {
             self.down();
         };
         a(this.container, [this.n_cont, this.time_cont]);
-         a(this.container, [lelem,relem]);
+        a(this.container, [lelem, relem]);
         cla(lelem, "logger_l");
         cla(this.container, ["logger_m", this.stl]);
         cla(relem, "logger_r");
@@ -57,28 +58,33 @@ function Logger() {
             this.data.shift();
         }
     };
-    this.dtSync=function(tmst){
-        this.dt_diff=tmst-Date.now();
+    this.dtSync = function (tmst, wday) {
+        this.dt_blocked = false;
+        this.dt_diff = tmst - Date.now();
+        this.dt_wday=wday;
     };
-    this.dtLocal=function(){
-        cla(this.time_cont,"logger_dt_local");
+    this.dtHide = function () {
+        cla(this.time_cont, "hdn");
     };
-    this.dtRemote=function(){
-      clr(this.time_cont,"logger_dt_local"); 
+    this.dtShow = function () {
+        clr(this.time_cont, "hdn");
+    };
+    this.dtRemote = function () {
+        clr(this.time_cont, "logger_dt_local");
     };
     this.showDate = function () {
-        var d = new Date(Date.now()+this.dt_diff);
+        var d = new Date(Date.now() + this.dt_diff);
         var year = d.getFullYear();
         var mon = trans.getMon(d.getMonth(), 0);
-        var wday = trans.getWDE(d.getDay(), 0);
+        var wday = trans.getWD(this.dt_wday, 0);
         var day = d.getDate();
         var h = intTo2str(d.getHours());
         var m = intTo2str(d.getMinutes());
         var s = intTo2str(d.getSeconds());
         this.time_cont.innerHTML = wday + " " + day + " " + mon + " " + year + " " + h + ":" + m + ":" + s;
     };
-    this.getDate=function(){
-      return Date.now()+this.dt_diff;  
+    this.getDate = function () {
+        return Date.now() + this.dt_diff;
     };
     this.enableDate = function () {
         var self = this;
