@@ -2,14 +2,59 @@ function MyImage(name) {
     this.container = c("img");
     s(this.container, "src", "client/image/" + name);
 }
-function NavigationButton(slave) {//create navigation button
+function NavigationButton(slave, img_path) {
     this.slave = slave;
     this.container = cb("");
+    this.imgE = c("img");
+    this.valE = cd();
+    s(this.imgE, "src", img_path);
+    cla(this.imgE, "nbi_img");
+    cla(this.valE, "nbi_val");
+    this.container.addEventListener("click", function () {
+        showV(slave);
+    }, false);
+    if (typeof img_path !== 'undefined') {
+        a(this.container, this.imgE);
+    }
+    a(this.container, this.valE);
+    this.updateStr = function () {
+        this.valE.innerHTML = this.slave.getName();
+    };
+}
+function NavigationButtonOut(path, text_id, img_path) {
+    //this.path = path;
+    this.text_id = text_id;
+    this.container = cb("");
+    this.imgE = c("img");
+    this.valE = cd();
+    s(this.imgE, "src", img_path);
+    cla(this.imgE, "nbi_img");
+    cla(this.valE, "nbi_val");
+    if (typeof img_path !== 'undefined') {
+        a(this.container, this.imgE);
+    }
+    a(this.container, this.valE);
+    this.container.addEventListener("click", function () {
+        window.location.href = path;
+    }, false);
+    this.updateStr = function () {
+        this.valE.innerHTML = trans.get(this.text_id);
+    };
+}
+function NavigationButtonI(slave, img_path) {
+    this.slave = slave;
+    this.container = cb("");
+    this.imgE = c("img");
+    s(this.imgE, "src", img_path);
+    this.valE = cd();
+    cla(this.imgE, "nbi_img");
+    cla(this.valE, "nbi_val");
+    a(this.container, [this.imgE, this.valE]);
     this.container.addEventListener("click", function () {
         showV(slave);
     }, false);
     this.updateStr = function () {
-        this.container.innerHTML = this.slave.getName();
+        this.valE.innerHTML = this.slave.getName();
     };
 }
 function SaveButton(slave, id) {
@@ -41,6 +86,72 @@ function Fieldset() {
     this.updateStr = function (v) {
         this.head.innerHTML = v;
     };
+}
+function BlockerSlide(slave, interval) {
+    this.container = c('input');
+    s(this.container, 'type', 'range');
+    s(this.container, 'step', 1);
+    this.container.value = 0;
+    this.container.min = 0;
+    this.container.max = 100;
+    this.slave = slave;
+    this.interval = interval;
+    this.btimer = null;
+    this.blocked = true;
+    this.block = function () {
+        this.slave.block();
+        this.container.value = 0;
+    };
+    this.updateStr = function (v) {
+        this.head.innerHTML = v;
+    };
+    this.unblock = function () {
+        this.slave.unblock();
+    };
+    var self = this;
+    this.container.onchange = function () {
+        var value = parseInt(this.value);
+        if (value === 100) {
+            self.unblock();
+            self.btimer = window.setTimeout(function () {
+                self.block();
+            }, self.interval);
+        }
+    };
+
+}
+function BlockerButton(slave, interval) {
+    this.container = cb('');
+    this.slave = slave;
+    this.interval = interval;
+    this.tmr1 = {tmr: null};
+    this.blocked = false;
+    this.block = function () {
+        this.container.innerHTML = "снять блокировку";
+        this.blocked = true;
+        this.slave.block();
+    };
+    this.updateStr = function (v) {
+        this.head.innerHTML = v;
+    };
+    this.unblock = function () {
+        this.container.innerHTML = "блокировать";
+        this.blocked = false;
+        this.slave.unblock();
+    };
+    var self = this;
+    this.container.onclick = function () {
+        if (self.blocked) {
+            self.unblock();
+            self.tmr1.tmr = window.setTimeout(function () {
+                self.block();
+            }, self.interval);
+        } else {
+            clearTmr(self.tmr1);
+            self.block();
+        }
+    };
+    this.block();
 }
 function CopyButton(slave, id) {
     var self = this;
@@ -107,6 +218,183 @@ function IncButton(slave, sign, kind, incr, text) {
         this.disabled = true;
     };
 }
+function FloatEditFieldset(min_value, max_value) {
+    this.container = null;
+    this.changeB = null;
+    this.signB = null;
+    this.incB = null;
+    this.header = null;
+    this.sign = 1;
+    this.value = 0.0;
+    this.minv = min_value;
+    this.maxv = max_value;
+    this.inc = 1;
+    this.timer = null;
+
+    this.getName = function () {
+        return "int edit";
+    };
+    this.incCB = function () {
+        var r = this.value + this.inc * this.sign;
+        if (r >= this.minv && r <= this.maxv) {
+            this.value = this.value + (this.inc * this.sign);
+            this.changeB.innerHTML = this.value.toFixed(3);
+        }
+    };
+    this.chSign = function () {
+        this.sign *= -1;
+        this.updSign();
+    };
+    this.updSign = function () {
+        if (this.sign > 0) {
+            this.signB.innerHTML = "+";
+        } else {
+            this.signB.innerHTML = "-";
+        }
+    };
+    this.updInc = function () {
+        switch (this.inc) {
+            case 0.001:
+                this.inc = 0.01;
+                break;
+            case 0.01:
+                this.inc = 0.1;
+                break;
+            case 0.1:
+                this.inc = 1;
+                break;
+            case 1:
+                this.inc = 10;
+                break;
+            case 10:
+                this.inc = 100;
+                break;
+            case 100:
+                this.inc = 1000;
+                break;
+            case 1000:
+                this.inc = 0.001;
+                break;
+        }
+        this.incB.innerHTML = this.inc;
+    };
+    this.updateStr = function (v) {
+        this.header.innerHTML = v;
+    };
+    var self = this;
+    this.container = c('fieldset');
+    this.header = c('legend');
+
+    this.changeB = cb("");
+    this.changeB.innerHTML = this.value;
+    this.changeB.onmousedown = function () {
+        inc.down(self);
+    };
+    this.changeB.innerHTML = this.value.toFixed(3);
+    this.signB = cb("");
+    this.updSign();
+    this.signB.onclick = function () {
+        self.chSign();
+    };
+    this.incB = cb("");
+    this.incB.innerHTML = this.inc;
+    this.incB.onclick = function () {
+        self.updInc();
+    };
+
+    a(this.container, [this.header, this.changeB, this.signB, this.incB]);
+
+    cla([this.signB, this.incB, this.changeB], "fefs_allb");
+    cla(this.signB, "fefs_singb");
+    cla(this.incB, "fefs_incb");
+    cla(this.changeB, "fefs_changeB");
+    cla(this.header, "fefs_header");
+}
+
+function IntEditFieldset(min_value, max_value) {
+    this.container = null;
+    this.changeB = null;
+    this.signB = null;
+    this.incB = null;
+    this.header = null;
+    this.sign = 1;
+    this.value = 0;
+    this.minv = min_value;
+    this.maxv = max_value;
+    this.inc = 1;
+    this.timer = null;
+
+    this.getName = function () {
+        return "int edit";
+    };
+    this.incCB = function () {
+        var r = this.value + this.inc * this.sign;
+        if (r >= this.minv && r <= this.maxv) {
+            this.value = this.value + (this.inc * this.sign);
+            this.changeB.innerHTML = this.value;
+        }
+    };
+    this.chSign = function () {
+        this.sign *= -1;
+        this.updSign();
+    };
+    this.updSign = function () {
+        if (this.sign > 0) {
+            this.signB.innerHTML = "+";
+        } else {
+            this.signB.innerHTML = "-";
+        }
+    };
+    this.updInc = function () {
+        switch (this.inc) {
+            case 1:
+                this.inc = 10;
+                break;
+            case 10:
+                this.inc = 100;
+                break;
+            case 100:
+                this.inc = 1000;
+                break;
+            case 1000:
+                this.inc = 1;
+                break;
+        }
+        this.incB.innerHTML = this.inc;
+    };
+    this.updateStr = function (v) {
+        this.header.innerHTML = v;
+    };
+    var self = this;
+    this.container = c('fieldset');
+    this.header = c('legend');
+
+    this.changeB = cb("");
+    this.changeB.innerHTML = this.value;
+    this.changeB.onmousedown = function () {
+        inc.down(self);
+    };
+    this.changeB.innerHTML = this.value;
+    this.signB = cb("");
+    this.updSign();
+    this.signB.onclick = function () {
+        self.chSign();
+    };
+    this.incB = cb("");
+    this.incB.innerHTML = this.inc;
+    this.incB.onclick = function () {
+        self.updInc();
+    };
+
+    a(this.container, [this.header, this.changeB, this.signB, this.incB]);
+
+    cla([this.signB, this.incB, this.changeB], "iefs_allb");
+    cla(this.signB, "iefs_singb");
+    cla(this.incB, "iefs_incb");
+    cla(this.changeB, "iefs_changeB");
+    cla(this.header, "iefs_header");
+}
+
 function UpButton(slave) {
     this.b = new IncButton(slave, -1, 0, 1, "&uparrow;");
     this.container = this.b.container;

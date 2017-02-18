@@ -18,7 +18,7 @@ function sendTo(c, d, a, dest) {
 }
 function execute() {
     var r = new XMLHttpRequest();
-    r.timeout=5000;
+    r.timeout = 5000;
     var timedout = false;
     var timer = window.setTimeout(function () {
         timedout = true;
@@ -50,10 +50,7 @@ function processResponse(r, action) {
             var d = JSON.parse(r);
         } catch (e) {
             $sq[0][0].abort(action, 'processResponse: can not parse json', diff);
-            $sq.shift();
-            if ($sq.length !== 0) {
-                execute();
-            }
+            donext();
             return;
         }
         //c_status 0-error while action execution, 1-ok, 2-error before any action execution
@@ -69,16 +66,16 @@ function processResponse(r, action) {
                 }
                 break;
             case 2:
-                $sq[0][0].abort(action, d.message,diff);
+                $sq[0][0].abort(action, d.message, diff);
                 break;
             case 3:
-                $sq[0][0].abort(action, d.message,diff);
+                $sq[0][0].abort(action, d.message, diff);
                 updateApp(d.message);
                 break;
         }
 
     } else {
-        $sq[0][0].abort(action, 'processResponse: response is empty',diff);
+        $sq[0][0].abort(action, 'processResponse: response is empty', diff);
     }
     donext();
 }

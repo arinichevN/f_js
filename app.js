@@ -5,9 +5,9 @@ var elem = [];
 var light_timer = null;
 var night = false;
 var visu_queue = [];
-var INT32_MAX=2147483647;
-var INT32_MIN=-2147483648;
-var UINT32_MAX=4294967295;
+var INT32_MAX = 2147483647;
+var INT32_MIN = -2147483648;
+var UINT32_MAX = 4294967295;
 function init() {
     for (var i = 0; i < elem.length; i++) {
         elem[i].init();
@@ -19,10 +19,10 @@ function init() {
         a(document.body, visu[i].container);
     }
     updateAllStr();
-    window.onclick = function () {
-        enlight();
-    };
-    enlight();
+//    window.onclick = function () {
+//        enlight();
+//    };
+//    enlight();
     showMain();
 }
 function updateAllStr() {
@@ -44,11 +44,12 @@ function enlight() {
     night = false;
 }
 function putOut() {
-    if (typeof vnight!=="undefined") {
+    if (typeof vnight !== "undefined") {
         showV(vnight);
         night = true;
     }
 }
+
 function showV(v) {
     if (visu_queue.length) {
         visu_queue[visu_queue.length - 1].hide();
@@ -58,18 +59,22 @@ function showV(v) {
 }
 function goBack() {
     if (visu_queue.length) {
-        visu_queue[visu_queue.length - 1].hide();
-        if (visu_queue[visu_queue.length - 1].type === VISU_TYPE.DIAL) {
-            visu_queue.pop();
-        } else {
-            while (1) {
+        if (visu_queue.length - 1 > 0) {
+            visu_queue[visu_queue.length - 1].hide();
+            if (visu_queue[visu_queue.length - 1].type === VISU_TYPE.DIAL) {
                 visu_queue.pop();
-                if (visu_queue.length === 0 || visu_queue[visu_queue.length - 1].type === VISU_TYPE.TOP || visu_queue[visu_queue.length - 1].type === VISU_TYPE.MAIN) {
-                    break;
+            } else {
+                while (1) {
+                    visu_queue.pop();
+                    if (visu_queue.length === 0 || visu_queue[visu_queue.length - 1].type === VISU_TYPE.TOP || visu_queue[visu_queue.length - 1].type === VISU_TYPE.MAIN) {
+                        break;
+                    }
                 }
             }
+            visu_queue[visu_queue.length - 1].show();
+        } else {
+            window.history.back();
         }
-        visu_queue[visu_queue.length - 1].show();
     }
 }
 function showMain() {

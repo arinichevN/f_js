@@ -14,6 +14,7 @@ function time(d, h, m, s) {
 function time_now() {
     return parseInt((Date.now()) / 1000);
 }
+
 function intToTimeStr(i) {
     var d = 0, h = 0, m = 0, s = 0, r = 0;
     var hs = "", ms = "", ss = "", ns = "";
@@ -551,6 +552,12 @@ function clearCont(cont) {
 function cleara(a) {
     while (a.length) {
         a.pop();
+    }
+}
+function clearTmr(v) {
+    if (v.tmr !== null) {
+        window.clearTimeout(v.tmr);
+        v.tmr = null;
     }
 }
 function eqa(a1, a2) {

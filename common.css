@@ -235,11 +235,11 @@ button{
 }
 .f1{
     font-weight: bold;
-    font-size:30pt;
+    font-size:2em;
 }
 .f2{
     font-weight: bold;
-    font-size:25pt;
+    font-size:3em;
 }
 .f3{
     font-weight: bold;
@@ -455,7 +455,7 @@ td {
     outline: 3px solid blue;
 }
 input{
-    width: 90%;
+    /*width: 90%;*/
 }
 .on{
     color:green;
@@ -733,58 +733,60 @@ input{
     height: 100%;
 }
 .h15m{
-    width:100%;
+    width:99%;
     height: 14%;
 }
 .h20m{
-    width:100%;
+    width:99%;
     height: 19%;
 }
 .h25m{
-    width:100%;
+    width:99%;
     height: 24%;
 }
 .h40m{
-    width: 100%;
+   width:99%;
     height: 39%;
 }
 .h50m{
-    width:100%;
+   width:99%;
     height: 49%;
 }
 
 .h60m{
-    width:100%;
+   width:99%;
     height: 59%;
 }
 .h70m{
-    width:100%;
+   width:99%;
     height: 69%;
 }
 .h80m{
-    width:100%;
+    width:99%;
     height: 79%;
 }
 .h85m{
-    width:100%;
+   width:99%;
     height: 84%;
 }
 .h30m{
+     width:99%;
     height: 29%;
-    width:100%;
+   
 }
 .h33m{
+     width:99%;
     height: 32%;
-    width:100%;
+   
 }
 .h100{
     height: 100%;
 }
 .lg1{
-    margin-left:1%;
+    margin-left:4px;
 }
 .ug1{
-    margin-top:1%;
+    margin-top:4px;
 }
 .lg05{
     margin-left:0.5%;
@@ -820,4 +822,23 @@ input{
 .clickable:hover{
     padding: 5px 0px 5px 5px;
     font-style: italic;
+}
+
+.nbi_img{
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    display: inline;
+    vertical-align: sub;
+}
+.nbi_val{
+    display: inline;
+}
+.select_none{
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    cursor:default;
 }

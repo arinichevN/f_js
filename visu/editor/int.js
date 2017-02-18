@@ -61,6 +61,7 @@ function IntEdit() {
         cla(this.changeB, "change");
         cla(this.maxB, "text_r");
         cla(this.header, "edit_header");
+        cla([this.cancelB, this.applyB, this.signB, this.incB, this.changeB], ["f2"]);
         a(r1, [this.minB, this.maxB]);
         a(r2, [this.signB, this.incB]);
         a(r3, [this.cancelB, this.applyB]);

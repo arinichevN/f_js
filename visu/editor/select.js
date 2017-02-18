@@ -70,6 +70,8 @@ function Select() {
         this.drawTbl();
         if (this.data.length === 0) {
             this.applyB.disabled = true;
+        }else{
+            this.applyB.disabled = false;
         }
         this.header.innerHTML = trans.get(h);
         this.slave.update=false;
