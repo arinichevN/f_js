@@ -1,6 +1,7 @@
 function CursorBlocker() {
     this.container=null;
     this.active = false;
+    this.count = 0;
     this.pX = null;
     this.pY = null;
     this.init = function () {
@@ -20,12 +21,16 @@ function CursorBlocker() {
             clr(this.container,'hdn');
             this.active = true;
         }
+        this.count ++;
     };
     this.disable = function () {
-        if (this.active) {
+        if (this.active && this.count===0) {
             cla(this.container,'hdn');
             this.active = false;
         }
+        if(this.count > 0){
+	        this.count--;
+		}
     };
     this.toggle = function () {
         if (this.active) {
